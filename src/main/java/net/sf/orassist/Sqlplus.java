@@ -6,9 +6,6 @@ public class Sqlplus extends Shell {
 
 	public Sqlplus(PrintStream out) throws Exception {
 		super(out);
-
-		// wait for prompt and put logo info to log
-		read();
 	}
 
 	protected String getExecutableName() {
@@ -31,6 +28,10 @@ public class Sqlplus extends Shell {
 			command += "\n";
 		}
 		return command;
+	}
+	
+	public String start() throws Exception {
+		return super.start() + read();
 	}
 
 }

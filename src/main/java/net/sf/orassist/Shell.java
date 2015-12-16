@@ -15,14 +15,18 @@ public abstract class Shell {
 	private InputStreamReader errReader;
 	private PrintWriter logWriter;
 
-	public Shell(PrintStream out) throws Exception {
+	public Shell(PrintStream out) {
 		this.logWriter = new PrintWriter(new OutputStreamWriter(out));
+	}
+	
+	public String start() throws Exception {
         this.process = Runtime.getRuntime().exec(getExecutableName(), getEnvironmentVariables()); 
         this.reader = new InputStreamReader(process.getInputStream(), "UTF8");
         this.errReader = new InputStreamReader(process.getErrorStream(), "UTF8");
         this.writer = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
+		return "";
 	}
-	
+
 	protected abstract String[] getEnvironmentVariables();
 	protected abstract String getExecutableName();
 	protected abstract String getPrompt();
