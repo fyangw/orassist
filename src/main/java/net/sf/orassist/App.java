@@ -16,8 +16,9 @@ public class App
     public static void main(String[] args)
     {
         try {
-        	new App().sqlplusDemo();
-        	new App().rmanDemo();
+        	//new App().sqlplusDemo();
+        	//new App().rmanDemo();
+        	new App().bashDemo();
         } catch (Throwable e) {
         	new RuntimeException(e);
         }
@@ -25,7 +26,7 @@ public class App
     
     public void sqlplusDemo() throws Exception {
     	Shell sqlplus = new Sqlplus(System.out);
-    	
+    	sqlplus.start();
     	String[] texts = sqlplus.commands(new String[] {
 			"connect / as sysdba",
 			"set lin 150",
@@ -39,7 +40,7 @@ public class App
     
     public void rmanDemo() throws Exception {
     	Shell rman = new Rman(System.out);
-    	
+    	rman.start();
     	String[] texts = rman.commands(new String[] {
     		"connect target /",
     		//"backup as compressed backupset incremental level 0 database plus archivelog delete input",
@@ -50,4 +51,13 @@ public class App
     	
     }
     
+    public void bashDemo() throws Exception {
+    	Shell bash = new Bash(System.out);
+    	bash.start();
+    	String[] texts = bash.commands(new String[] {
+    		"ls -la",
+    		"exit"
+    	});
+    	
+    }
 }
