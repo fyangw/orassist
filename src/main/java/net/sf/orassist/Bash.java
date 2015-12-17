@@ -1,11 +1,12 @@
 package net.sf.orassist;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class Bash extends Shell {
 
-	public Bash(PrintStream out) throws Exception {
-		super(out);
+	public Bash(PipePlug plug) throws Exception {
+		super(plug);
 	}
 
 	protected String getExecutableName() {
@@ -20,8 +21,8 @@ public class Bash extends Shell {
 		return new String[]{}; 
 	}
 	
-	protected String prepareCommand(String command) {
-		return command;
+	protected String prepareCommand(String command) throws IOException {
+		return command + "\n";
 	}
 	
 	public String start() throws Exception {

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ import javax.swing.text.PlainDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import net.sf.orassist.PipePlug;
 import net.sf.orassist.Sqlplus;
 
 public class ChatViewController extends JFrame {
@@ -67,10 +70,14 @@ public class ChatViewController extends JFrame {
         this.setVisible(true);
 
         try {
-            this.sqlplus = new Sqlplus(System.out);
+        	PipePlug plug = new PipePlug(
+        			new InputStreamReader(System.in, "utf-8"),
+        			new OutputStreamWriter(System.out, "utf-8"),
+        			new OutputStreamWriter(System.err, "utf-8"));
+            this.sqlplus = new Sqlplus(plug);
             append(sqlplus.start(), Color.DARK_GRAY);
         } catch(Throwable t) {
-
+        	throw new RuntimeException(t);
         }
     }
 

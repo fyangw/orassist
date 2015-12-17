@@ -13,19 +13,31 @@ import java.util.concurrent.Callable;
 
 public class App
 {
+	PipePlug plug;
     public static void main(String[] args)
     {
         try {
-        	//new App().sqlplusDemo();
-        	//new App().rmanDemo();
+//        	new App().sqlplusDemo();
+//        	new App().rmanDemo();
         	new App().bashDemo();
         } catch (Throwable e) {
         	new RuntimeException(e);
         }
     }
     
+    public App () {
+    	try {
+        	plug = new PipePlug(
+        			new InputStreamReader(System.in, "utf-8"),
+        			new OutputStreamWriter(System.out, "utf-8"),
+        			new OutputStreamWriter(System.err, "utf-8"));
+    	} catch (Exception e) {
+    		throw new RuntimeException(e);
+    	}
+    }
+    
     public void sqlplusDemo() throws Exception {
-    	Shell sqlplus = new Sqlplus(System.out);
+    	Shell sqlplus = new Sqlplus(plug);
     	sqlplus.start();
     	String[] texts = sqlplus.commands(new String[] {
 			"connect / as sysdba",
@@ -39,7 +51,7 @@ public class App
     }
     
     public void rmanDemo() throws Exception {
-    	Shell rman = new Rman(System.out);
+    	Shell rman = new Rman(plug);
     	rman.start();
     	String[] texts = rman.commands(new String[] {
     		"connect target /",
@@ -52,10 +64,10 @@ public class App
     }
     
     public void bashDemo() throws Exception {
-    	Shell bash = new Bash(System.out);
+    	Shell bash = new Bash(plug);
     	bash.start();
     	String[] texts = bash.commands(new String[] {
-    		"ls -la",
+    		"pwd",
     		"exit"
     	});
     	

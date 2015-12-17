@@ -1,11 +1,12 @@
 package net.sf.orassist;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class Rman extends Shell {
 
-	public Rman(PrintStream out) throws Exception {
-		super(out);
+	public Rman(PipePlug plug) throws Exception {
+		super(plug);
 
 		// wait for prompt and put logo info to log
 		read();
@@ -24,12 +25,13 @@ public class Rman extends Shell {
 		//Simplified Chinese_China.UTF8, Japanese_Japan.UTF8 
 	}
 	
-	protected String prepareCommand(String command) {
+	protected String prepareCommand(String command) throws IOException {
 		if (!command.endsWith(";")) {
 			command += ";\n";
 		} else {
 			command += "\n";
 		}
+		log(command);
 		return command;
 	}
 

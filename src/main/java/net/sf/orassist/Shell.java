@@ -10,32 +10,29 @@ import java.util.ArrayList;
 
 public abstract class Shell {
 	private Process process;
-	private PrintWriter writer;
-	private InputStreamReader reader;
-	private InputStreamReader errReader;
-	private PrintWriter logWriter;
+	protected PipePlug plug;
+	private ProcessMonitor monitor;
 
-	public Shell(PrintStream out) {
-		this.logWriter = new PrintWriter(new OutputStreamWriter(out));
+	public Shell(PipePlug plug) {
+		this.plug = plug;
 	}
 	
 	public String start() throws Exception {
         this.process = Runtime.getRuntime().exec(getExecutableName(), getEnvironmentVariables()); 
-        this.reader = new InputStreamReader(process.getInputStream(), "UTF8");
-        this.errReader = new InputStreamReader(process.getErrorStream(), "UTF8");
-        this.writer = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
+        this.monitor = new ProcessMonitor(process.getInputStream(), process.getErrorStream(), process.getOutputStream());
+        monitor.start();
 		return "";
 	}
 
 	protected abstract String[] getEnvironmentVariables();
 	protected abstract String getExecutableName();
 	protected abstract String getPrompt();
-	protected abstract String prepareCommand(String command);
+	protected abstract String prepareCommand(String command) throws IOException;
 	
 	public String read() throws Exception {
         StringBuffer edit = new StringBuffer();
         StringBuffer line = new StringBuffer();
-        for (int ch; (ch = reader.read()) != -1;) {
+		for (int ch; (ch = monitor.get().value()) != -1;) {
         	log((char)ch);
     		line.append((char)ch);
         	if ((char)ch == '\n') {
@@ -50,20 +47,16 @@ public abstract class Shell {
         return edit.toString();		
 	}
 	
-	private void log(char ch) {
-		logWriter.write(ch);
-		logWriter.flush();
+	protected void log(char ch) throws IOException {
+		plug.out(ch);
 	}
-	private void log(CharSequence str) {
-		logWriter.write(str.toString());
-		logWriter.flush();
+	protected void log(CharSequence str) throws IOException {
+		plug.out(str.toString());
 	}
 	
 	public String command(String command) throws Exception {
 		command = prepareCommand(command);
-		log(command);
-		writer.write(command);
-		writer.flush();
+		monitor.write(command);
 		return read();
 	}
 	

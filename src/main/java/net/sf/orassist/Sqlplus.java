@@ -1,11 +1,12 @@
 package net.sf.orassist;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class Sqlplus extends Shell {
 
-	public Sqlplus(PrintStream out) throws Exception {
-		super(out);
+	public Sqlplus(PipePlug term) throws Exception {
+		super(term);
 	}
 
 	protected String getExecutableName() {
@@ -21,12 +22,13 @@ public class Sqlplus extends Shell {
 		//Simplified Chinese_China.UTF8, Japanese_Japan.UTF8 
 	}
 	
-	protected String prepareCommand(String command) {
+	protected String prepareCommand(String command) throws IOException {
 		if (!command.endsWith(";")) {
 			command += ";\n";
 		} else {
 			command += "\n";
 		}
+		log(command);
 		return command;
 	}
 	
