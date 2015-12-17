@@ -9,11 +9,11 @@ public class Bash extends Shell {
 	}
 
 	protected String getExecutableName() {
-		return "bash";
+		return "sh -i";
 	}
 
 	protected String getPrompt() {
-		return "$ ";
+		return "sh-4.3$ ";
 	}
 
 	protected String[] getEnvironmentVariables () { 
