@@ -40,9 +40,9 @@ public class ProcessMonitor {
 	public ProcessMonitor(InputStream inputStream, 
 			InputStream errorStream,
 			OutputStream outputStream,
-			String prompt) throws UnsupportedEncodingException {
-		this.reader = new InputStreamReader(inputStream, "UTF8");
-		this.errReader = new InputStreamReader(errorStream, "UTF8");
+			String prompt, String encoding) throws UnsupportedEncodingException {
+		this.reader = new InputStreamReader(inputStream, encoding);
+		this.errReader = new InputStreamReader(errorStream, encoding);
 		this.writer = new PrintWriter(new OutputStreamWriter(outputStream));
 		this.prompt = prompt;
 	}
@@ -56,7 +56,7 @@ public class ProcessMonitor {
 					String s = "";
 					for (;!stopped && (ch = this.threadReader.read()) != -1;) {
 						s += (char)ch;
-						if ((char)ch == '\n' || s.equals(prompt)) {
+						if ((char)ch == '\n' || s.matches(prompt)) {
 							put(new PipeMessage(s, null, false));
 							s = "";
 						}
@@ -74,7 +74,7 @@ public class ProcessMonitor {
 					String s = "";
 					for (;!stopped && (ch = this.threadReader.read()) != -1;) {
 						s += (char)ch;
-						if ((char)ch == '\n' || s.equals(prompt)) {
+						if ((char)ch == '\n' || s.matches(prompt)) {
 							put(new PipeMessage(s, null, false));
 							s = "";
 						}

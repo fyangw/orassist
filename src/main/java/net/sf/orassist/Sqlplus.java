@@ -39,4 +39,9 @@ public class Sqlplus extends Shell {
 	public String stop() throws Exception {
 		return command("exit");
 	}
+
+	@Override
+	protected String getEncoding() {
+		return "utf8";
+	}
 }

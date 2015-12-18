@@ -3,36 +3,30 @@ package net.sf.orassist;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class Rman extends Shell {
+public class Cmd extends Shell {
 
-	public Rman(PipePlug plug) throws Exception {
+	public Cmd(PipePlug plug) throws Exception {
 		super(plug);
-
-		// wait for prompt and put logo info to log
-		read();
 	}
 
 	protected String getExecutableName() {
-		return "rman";
+		return "cmd";
 	}
 
 	protected String getPrompt() {
-		return "RMAN> ";
+		return "^[A-Z]:.*>$";
 	}
 
 	protected String[] getEnvironmentVariables () { 
-		return new String[]{"NLS_LANG=American_America.UTF8"}; 
-		//Simplified Chinese_China.UTF8, Japanese_Japan.UTF8 
+		return new String[]{}; 
 	}
 	
 	protected String prepareCommand(String command) throws IOException {
-		if (!command.endsWith(";")) {
-			command += ";\n";
-		} else {
-			command += "\n";
-		}
-		log(command);
-		return command;
+		return command + "\n";
+	}
+	
+	public String start() throws Exception {
+		return super.start() + read();
 	}
 
 	@Override

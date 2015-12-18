@@ -14,7 +14,7 @@ public class Bash extends Shell {
 	}
 
 	protected String getPrompt() {
-		return "bash-4.3$ ";
+		return "^bash-4.3\\$ $";
 	}
 
 	protected String[] getEnvironmentVariables () { 
@@ -32,6 +32,11 @@ public class Bash extends Shell {
 	@Override
 	public String stop() throws Exception {
 		return command("exit");
+	}
+
+	@Override
+	protected String getEncoding() {
+		return "utf8";
 	}
 
 }

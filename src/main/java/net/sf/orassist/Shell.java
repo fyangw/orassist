@@ -19,14 +19,16 @@ public abstract class Shell {
 	
 	public String start() throws Exception {
         this.process = Runtime.getRuntime().exec(getExecutableName(), getEnvironmentVariables()); 
-        this.monitor = new ProcessMonitor(process.getInputStream(), process.getErrorStream(), process.getOutputStream(), getPrompt());
+        this.monitor = new ProcessMonitor(process.getInputStream(), process.getErrorStream(), process.getOutputStream(), getPrompt(), getEncoding());
         monitor.start();
 		return "";
 	}
 
+
 	protected abstract String[] getEnvironmentVariables();
 	protected abstract String getExecutableName();
 	protected abstract String getPrompt();
+	protected abstract String getEncoding();
 	protected abstract String prepareCommand(String command) throws IOException;
 	
 	public String read() throws Exception {
@@ -39,7 +41,7 @@ public abstract class Shell {
         		edit.append(line);
         	}
 
-        	if (line.equals(getPrompt())) {
+        	if (line.matches(getPrompt())) {
         		break;
         	}
         }

@@ -19,7 +19,8 @@ public class App
         try {
 //        	new App().sqlplusDemo();
 //        	new App().rmanDemo();
-        	new App().bashDemo();
+//        	new App().bashDemo();
+        	new App().cmdDemo();
         } catch (Throwable e) {
         	new RuntimeException(e);
         }
@@ -70,6 +71,20 @@ public class App
     		"ls",
     		"cd ..",
     		"ls",
+    	});
+    	bash.stop();
+    	
+    }
+    
+    public void cmdDemo() throws Exception {
+    	Shell bash = new Cmd(plug);
+    	bash.start();
+    	String[] texts = bash.commands(new String[] {
+    		"chcp 65001",
+    		"cd",
+    		"dir",
+    		"cd ..",
+    		"dir",
     	});
     	bash.stop();
     	
