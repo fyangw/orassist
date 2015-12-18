@@ -2,6 +2,7 @@ package net.sf.orassist;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
 
 public class Sqlplus extends Shell {
 
@@ -18,7 +19,8 @@ public class Sqlplus extends Shell {
 	}
 
 	protected String[] getEnvironmentVariables () { 
-		return new String[]{"NLS_LANG=American_America.UTF8"}; 
+		return new String[]{}; 
+		//return new String[]{"NLS_LANG=American_America.UTF8"}; 
 		//Simplified Chinese_China.UTF8, Japanese_Japan.UTF8 
 	}
 	
@@ -42,6 +44,6 @@ public class Sqlplus extends Shell {
 
 	@Override
 	protected String getEncoding() {
-		return "utf8";
+		return System.getProperty("sun.jnu.encoding");
 	}
 }

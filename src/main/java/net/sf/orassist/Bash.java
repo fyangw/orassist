@@ -2,6 +2,8 @@ package net.sf.orassist;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
+import java.util.Properties;
 
 public class Bash extends Shell {
 
@@ -18,7 +20,11 @@ public class Bash extends Shell {
 	}
 
 	protected String[] getEnvironmentVariables () { 
-		return new String[]{"PATH=/usr/bin:/usr/local/bin:/usr/sbin"}; 
+		Locale locale = Locale.getDefault();
+		return new String[]{
+			"PATH=/usr/bin:/usr/local/bin:/usr/sbin", 
+			"LANG=" + locale.getLanguage() + "_" + locale.getCountry() + "." + System.getProperty("sun.jnu.encoding"),
+		}; 
 	}
 	
 	protected String prepareCommand(String command) throws IOException {
@@ -36,7 +42,7 @@ public class Bash extends Shell {
 
 	@Override
 	protected String getEncoding() {
-		return "utf8";
+		return System.getProperty("sun.jnu.encoding");
 	}
 
 }

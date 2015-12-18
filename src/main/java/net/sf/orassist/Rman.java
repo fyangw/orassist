@@ -42,7 +42,7 @@ public class Rman extends Shell {
 
 	@Override
 	protected String getEncoding() {
-		return "utf8";
+		return System.getProperty("sun.jnu.encoding");
 	}
 
 }

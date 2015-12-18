@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 
 public class App
@@ -17,10 +18,10 @@ public class App
     public static void main(String[] args)
     {
         try {
-//        	new App().sqlplusDemo();
+        	new App().sqlplusDemo();
 //        	new App().rmanDemo();
 //        	new App().bashDemo();
-        	new App().cmdDemo();
+//        	new App().cmdDemo();
         } catch (Throwable e) {
         	new RuntimeException(e);
         }
@@ -73,7 +74,6 @@ public class App
     		"ls",
     	});
     	bash.stop();
-    	
     }
     
     public void cmdDemo() throws Exception {
@@ -82,11 +82,9 @@ public class App
     	String[] texts = bash.commands(new String[] {
     		"chcp 65001",
     		"cd",
-    		"dir",
+    		"dir /w",
     		"cd ..",
-    		"dir",
     	});
     	bash.stop();
-    	
     }
 }
