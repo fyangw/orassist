@@ -1,27 +1,29 @@
 package net.sf.orassist;
 
 public class PipeMessage {
-	private Integer stdinMessage;
-	private Integer stderrMessage;
+	private String stdinMessage;
+	private String stderrMessage;
+	private boolean eof;
 	
-	public PipeMessage(Integer stdinMessage, 
-			Integer stderrMessage) {
+	public PipeMessage(String stdinMessage, 
+			String stderrMessage, boolean eof) {
 		this.stdinMessage = stdinMessage;
 		this.stderrMessage = stderrMessage;
+		this.eof = eof;
 	}
 	
-	public Integer getStdinMessage() {
+	public String getStdinMessage() {
 		return stdinMessage;
 	}
-	public Integer getStderrMessage() {
+	public String getStderrMessage() {
 		return stderrMessage;
 	}
 
-	public boolean eof() {
-		return value() == -1;
+	public boolean isEof() {
+		return eof;
 	}
 	
-	public Integer value() {
+	public String value() {
 		return stdinMessage != null ? stdinMessage : stderrMessage;
 	}
 

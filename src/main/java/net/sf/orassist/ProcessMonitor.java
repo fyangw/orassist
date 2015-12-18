@@ -34,35 +34,52 @@ public class ProcessMonitor {
 	private InputStreamReader reader;
 	private InputStreamReader errReader;
 	private PrintWriter writer;
-	private boolean stopped = false;
+	private volatile boolean stopped = false;
+	final private String prompt;
 
 	public ProcessMonitor(InputStream inputStream, 
 			InputStream errorStream,
-			OutputStream outputStream) throws UnsupportedEncodingException {
+			OutputStream outputStream,
+			String prompt) throws UnsupportedEncodingException {
 		this.reader = new InputStreamReader(inputStream, "UTF8");
 		this.errReader = new InputStreamReader(errorStream, "UTF8");
 		this.writer = new PrintWriter(new OutputStreamWriter(outputStream));
+		this.prompt = prompt;
 	}
 
 	public void start() {
 		new Thread(new Runnable(){
+			private InputStreamReader threadReader = reader;
 			public void run() {
 				try {
-					int ch = 0;
-					while (!stopped && ch != -1) {
-						put(new PipeMessage(ch = reader.read(), null));
+					int ch;
+					String s = "";
+					for (;!stopped && (ch = this.threadReader.read()) != -1;) {
+						s += (char)ch;
+						if ((char)ch == '\n' || s.equals(prompt)) {
+							put(new PipeMessage(s, null, false));
+							s = "";
+						}
 					}
+					put(new PipeMessage(null, null, true));
 				} catch (IOException e) {
 					new RuntimeException(e);
 				}
 			}}).start();
 		new Thread(new Runnable(){
+			private InputStreamReader threadReader = errReader;
 			public void run() {
 				try {
-					int ch = 0;
-					while (!stopped && ch != -1) {
-						put(new PipeMessage(null, ch = errReader.read()));
+					int ch;
+					String s = "";
+					for (;!stopped && (ch = this.threadReader.read()) != -1;) {
+						s += (char)ch;
+						if ((char)ch == '\n' || s.equals(prompt)) {
+							put(new PipeMessage(s, null, false));
+							s = "";
+						}
 					}
+					put(new PipeMessage(null, null, true));
 				} catch (IOException e) {
 					new RuntimeException(e);
 				}

@@ -19,7 +19,7 @@ public abstract class Shell {
 	
 	public String start() throws Exception {
         this.process = Runtime.getRuntime().exec(getExecutableName(), getEnvironmentVariables()); 
-        this.monitor = new ProcessMonitor(process.getInputStream(), process.getErrorStream(), process.getOutputStream());
+        this.monitor = new ProcessMonitor(process.getInputStream(), process.getErrorStream(), process.getOutputStream(), getPrompt());
         monitor.start();
 		return "";
 	}
@@ -31,16 +31,15 @@ public abstract class Shell {
 	
 	public String read() throws Exception {
         StringBuffer edit = new StringBuffer();
-        StringBuffer line = new StringBuffer();
-		for (int ch; (ch = monitor.get().value()) != -1;) {
-        	log((char)ch);
-    		line.append((char)ch);
-        	if ((char)ch == '\n') {
+        String line;
+		for (PipeMessage msg; !(msg = monitor.get()).isEof();) {
+			line = msg.value();
+        	log(line);
+        	if (line.endsWith("\n")) {
         		edit.append(line);
-        		line.delete(0, line.length());
         	}
 
-        	if (line.toString().equals(getPrompt())) {
+        	if (line.equals(getPrompt())) {
         		break;
         	}
         }
