@@ -10,15 +10,15 @@ public class Bash extends Shell {
 	}
 
 	protected String getExecutableName() {
-		return "sh -i";
+		return "bash -c 'bash --norc --noprofile --login -i 2>&1'";
 	}
 
 	protected String getPrompt() {
-		return "sh-4.3$ ";
+		return "bash-4.3$ ";
 	}
 
 	protected String[] getEnvironmentVariables () { 
-		return new String[]{}; 
+		return new String[]{"PATH=/usr/bin:/usr/local/bin:/usr/sbin"}; 
 	}
 	
 	protected String prepareCommand(String command) throws IOException {
@@ -27,6 +27,11 @@ public class Bash extends Shell {
 	
 	public String start() throws Exception {
 		return super.start() + read();
+	}
+
+	@Override
+	public String stop() throws Exception {
+		return command("exit");
 	}
 
 }

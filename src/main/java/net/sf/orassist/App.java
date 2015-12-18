@@ -45,8 +45,8 @@ public class App
 			"set pages 9999",
 			"set timi on",
 			"select * from dual",
-			"quit"
 		});
+    	sqlplus.stop();
 
     }
     
@@ -58,9 +58,8 @@ public class App
     		//"backup as compressed backupset incremental level 0 database plus archivelog delete input",
     		"delete noprompt obsolete",
     		"list backupset",
-    		"quit"
     	});
-    	
+    	rman.stop();
     }
     
     public void bashDemo() throws Exception {
@@ -68,8 +67,11 @@ public class App
     	bash.start();
     	String[] texts = bash.commands(new String[] {
     		"pwd",
-    		"exit"
+    		"ls",
+    		"cd ..",
+    		"ls",
     	});
+    	bash.stop();
     	
     }
 }

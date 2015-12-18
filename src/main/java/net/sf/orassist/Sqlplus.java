@@ -36,4 +36,7 @@ public class Sqlplus extends Shell {
 		return super.start() + read();
 	}
 
+	public String stop() throws Exception {
+		return command("exit");
+	}
 }

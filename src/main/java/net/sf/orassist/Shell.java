@@ -67,4 +67,6 @@ public abstract class Shell {
 		return retArr.toArray(new String[retArr.size()]);
 	}
 
+	abstract public String stop() throws Exception;
+
 }

@@ -35,4 +35,9 @@ public class Rman extends Shell {
 		return command;
 	}
 
+	@Override
+	public String stop() throws Exception {
+		return command("exit");
+	}
+
 }
