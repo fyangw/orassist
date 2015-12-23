@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
@@ -29,7 +30,8 @@ import net.sf.orassist.Sqlplus;
 
 public class ChatViewController extends JFrame {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
+        UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
         new ChatViewController();
     }
 
@@ -51,7 +53,7 @@ public class ChatViewController extends JFrame {
         StyleConstants.setForeground(attrSet, Color.DARK_GRAY);
         StyleConstants.setBold(attrSet, false);
         StyleConstants.setFontSize(attrSet, 16);
-        StyleConstants.setFontFamily(attrSet, "Courier New"); //"黑体"
+        StyleConstants.setFontFamily(attrSet, "SimSun"); //"黑体" Courier New
 
         consoleText.setEditable(false);
         timelinePane.setHorizontalScrollBarPolicy( 

@@ -21,5 +21,10 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+	<dependency>
+		<groupId>de.sciss</groupId>
+		<artifactId>weblaf</artifactId>
+		<version>1.27</version>
+	</dependency>
   </dependencies>
 </project>
